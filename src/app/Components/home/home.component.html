@@ -1,0 +1,125 @@
+<!-- home.component.html -->
+<div class="dashboard-container d-flex">
+  <app-lottie-animation></app-lottie-animation>
+
+  <!-- Sidebar -->
+  <div class="sidebar d-flex flex-column align-items-center pt-4">
+    <div *ngFor="let item of sidebarItems" 
+         class="sidebar-item" 
+         (mouseenter)="item.hover = true" 
+         (mouseleave)="item.hover = false">
+      <a [routerLink]="item.route">
+        <i class="{{ item.icon }}"></i>
+        <span class="label" [class.show]="item.hover">{{ item.label }}</span>
+      </a>
+    </div>
+
+    <!-- Categories Item -->
+    <div class="sidebar-icon mb-4 position-relative" 
+         (mouseenter)="showCategoryDropdown = true" 
+         (mouseleave)="showCategoryDropdown = false">
+      <i class="bi bi-tags-fill"></i>
+      <span *ngIf="expandSidebar">Categories</span>
+      <div *ngIf="showCategoryDropdown" class="category-dropdown">
+        <div class="category-item" *ngFor="let cat of categories" (click)="selectCategory(cat)">
+          {{ cat }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content flex-grow-1 p-4">
+    <app-lottie-loader *ngIf="showLoader"></app-lottie-loader>
+
+    <div *ngIf="!showLoader" class="content">
+      <!-- Featured Banner -->
+      <div class="featured-banner discount-card mb-5">
+        <h4 class="text-white">Best discounts</h4>
+        <p class="small-text">1293 items</p>
+        <span class="badge-custom">Left 10 Days</span>
+      </div>
+
+      <!-- Tabs and Filter -->
+      <div class="tabs-filter d-flex justify-content-between align-items-center gap-3 mb-4 w-100">
+        <div class="tabs d-flex gap-2">
+          <button class="tab-button" [class.active]="selectedTab==='Popular'" (click)="filterBy('Popular')">Popular</button>
+          <button class="tab-button" [class.active]="selectedTab==='Cheap'" (click)="filterBy('Cheap')">Cheap</button>
+          <button class="tab-button" [class.active]="selectedTab==='Expensive'" (click)="filterBy('Expensive')">Expensive</button>
+          <button class="tab-button" [class.active]="selectedTab==='Sale'" (click)="filterBy('Sale')">Sale</button>
+        </div>
+
+        <div class="category-select d-flex gap-3 mb-4">
+          <div *ngFor="let cat of categories" 
+               (click)="selectCategory(cat)" 
+               [class.active]="cat === selectedCategory" 
+               class="category-tab">
+            {{ cat }}
+          </div>
+        </div>
+
+        <div>
+          <select class="form-select brand-select" (change)="filterBrand($event)">
+            <option value="">All Brands</option>
+            <option *ngFor="let brand of brands">{{ brand }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Product Cards -->
+      <div class="cards-grid row">
+        <div class="col-md-4 mb-4" *ngFor="let product of filteredProducts">
+          <div class="card-custom p-3 d-flex flex-column gap-3 overflow-visible position-relative" >
+            <div class="card-img-wrapper" (click)="openProductModal(product)">
+              <div class="card-img d-flex justify-content-center align-items-center">
+                <img [src]="product.images[1] || 'assets/default-image.png'" class="avatar-large card-img-top"> 
+              </div>
+            </div>
+
+            <div class="d-flex flex-column gap-2 text-center">
+              <div class="text-white fw-bold fs-5">{{ product.title }}</div>
+              <div class="small-text">{{ product.description }}</div>
+
+              <div class="d-flex justify-content-around align-items-center">
+                <div class="d-flex justify-content-center align-items-center gap-3 mt-2">
+                  <div class="price-container d-flex flex-column align-items-center">
+                    <div *ngIf="product.discountPercentage" class="d-flex align-items-center gap-2">
+                      <div class="old-price text-white-50 text-decoration-line-through">
+                        ${{ (product.price / (1 - product.discountPercentage/100)).toFixed(2) }}
+                      </div>
+                      <span class="discount-badge">
+                        -{{ product.discountPercentage }}%
+                      </span>
+                    </div>
+                    <div class="price text-success fw-bold">
+                      ${{ product.price }}
+                    </div>
+                  </div>
+
+                  <div class="rating text-warning">
+                    <i class="bi bi-star-fill" *ngFor="let star of getStars(product.rating || 0)"></i>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                  <button class="btn-cart" (click)="addToCart(product)">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div *ngIf="filteredProducts?.length === 0" class="text-center text-light mt-5 col-12">
+          <p>No products found for the selected category.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-product-details-modal 
+  *ngIf="selectedProduct" 
+  [product]="selectedProduct" 
+  (close)="closeProductModal()">
+</app-product-details-modal>

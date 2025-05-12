@@ -1,0 +1,201 @@
+.Background {
+  min-height: 100vh;
+  background: url('../../../assets/images/purble.jpeg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+//   max-height:100vh;
+}
+
+.Background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.5); /* dark translucent layer */
+  z-index: 0;
+}
+
+.cart-container {
+  position: relative;
+  z-index: 1; /* Bring cart content above the blur layer */
+}
+
+.cart-container {
+   width: 80%; /* instead of max-width */
+  max-width: none;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(145deg, #181818, #242424);
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(128, 0, 255, 0.1);
+}
+
+.cart-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  background: #1b1b1b;
+  padding: 1rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(128, 0, 255, 0.1);
+  transition: transform 0.3s;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  /* NEW: make cart items scrollable */
+  max-height: 40vh; /* or 60vh, adjust based on your design */
+  overflow-y: auto;
+  padding-right: 0.5rem; /* To avoid scrollbar overlapping */
+}
+
+/* Optional: Nicer scrollbar */
+.cart-items::-webkit-scrollbar {
+  width: 8px;
+}
+.cart-items::-webkit-scrollbar-thumb {
+  background: #7f76ff;
+  border-radius: 4px;
+}
+.cart-items::-webkit-scrollbar-track {
+  background: #2c2c2c;
+}
+
+
+.cart-item:hover {
+  transform: translateY(-5px);
+}
+
+.cart-item-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.cart-item-details {
+  flex: 1;
+  color: white;
+}
+
+.btn-remove {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.quantity-control button {
+  background: #7f76ff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.quantity-control button:hover {
+  background: #9c90ff;
+}
+
+.cart-item-total {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cart-summary {
+  margin-top: 3rem;
+  background: #1b1b1b;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(128, 0, 255, 0.1);
+}
+
+.cart-summary h2 {
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  color: white;
+}
+
+.summary-line.total {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.cart-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-continue, .btn-checkout {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn-continue {
+  background: transparent;
+  border: 1px solid #7f76ff;
+  color: #7f76ff;
+}
+
+.btn-continue:hover {
+  background: #7f76ff;
+  color: white;
+  transform: scale(1.05);
+}
+
+.btn-checkout {
+  background: #7f76ff;
+  color: white;
+}
+
+.btn-checkout:hover {
+  background: #9c90ff;
+  transform: scale(1.05);
+}

@@ -1,0 +1,115 @@
+/* === Modal Backdrop === */
+.modal-backdrop-custom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  z-index: 1040;
+}
+
+/* === Modal Layout === */
+.modal-dialog {
+  max-width: 90%;
+  width: 100%;
+}
+
+.modal-content {
+  background: #1f1f1f;
+  color: white;
+  border-radius: 15px;
+  max-height: 90vh; /* Limit height of modal */
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Custom Scrollbar */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #7f76ff;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #2c2c2c;
+  }
+}
+
+/* === Carousel === */
+.carousel-inner {
+  height: 100%;
+  overflow: hidden;
+}
+
+.carousel-item {
+  height: 400px;
+  display: none; /* default hidden */
+  justify-content: center;
+  transition: transform 0.6s ease-in-out;
+
+  &.active {
+    display: flex; /* show active item */
+  }
+
+  img {
+    max-height: 400px;
+    object-fit: cover;
+  }
+}
+
+/* === Product Details Section === */
+.details {
+  padding: 1rem;
+}
+
+/* === Pricing & Rating === */
+.old-price {
+  font-size: 1rem;
+  text-decoration: line-through;
+  color: #bbb;
+}
+
+.new-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.rating i,
+.text-warning i {
+  color: #ffd700;
+}
+
+/* === Review Items === */
+.review-item {
+  background: #292929;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(128, 0, 255, 0.4);
+  }
+}
+
+/* === Cart Button === */
+.btn-cart {
+  background: #7f76ff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.3s;
+
+  &:hover {
+    background: #9c90ff;
+    transform: scale(1.05);
+    box-shadow: 0px 0px 10px #9c90ff;
+  }
+}

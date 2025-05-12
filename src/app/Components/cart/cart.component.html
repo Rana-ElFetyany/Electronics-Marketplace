@@ -1,0 +1,56 @@
+<div class="Background">
+  <div class="cart-container content">
+    <h1 class="cart-title">Your Cart</h1>
+
+    <div class="cart-items ">
+      <div *ngFor="let item of cartItems" class="cart-item">
+        <img [src]="item.thumbnail" alt="{{item.title}}" class="cart-item-image" />
+
+        <div class="cart-item-details">
+          <h3>{{item.title}}</h3>
+          <p>{{item.description}}</p>
+          <p>Price: ${{item.price | number:'1.2-2'}}</p>
+          <p>Brand: {{item.brand}}</p>
+          <p>Category: {{item.category}}</p>
+
+          <div class="quantity-control">
+            <button (click)="updateQuantity(item, false)">-</button>
+            <span>{{item.quantity || 1}}</span>
+            <button (click)="updateQuantity(item, true)">+</button>
+          </div>
+        </div>
+
+        <div class="cart-item-actions">
+          <div class="cart-item-total">
+            Total: ${{ (item.price * (item.quantity || 1)) | number:'1.2-2' }}
+          </div>
+
+          <!-- 🗑️ Trash icon button -->
+          <button class="btn-remove" (click)="removeFromCart(item)">
+            🗑️
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <h2>Summary</h2>
+
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <span>${{ getSubtotal() | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="summary-line total">
+        <span>Total</span>
+        <span>${{ getSubtotal() | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="cart-buttons">
+        <button class="btn-continue" routerLink="/Home">Continue Shopping</button>
+        <button class="btn-checkout">Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>

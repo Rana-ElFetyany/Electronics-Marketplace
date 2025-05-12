@@ -1,0 +1,16 @@
+.product-card {
+  background-color: var(--surface-color);
+  color: var(--text-primary-color);
+  border: 1px solid var(--border-color);
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+body{
+min-height: 100vh ;
+background-color: var(--background-color);
+}

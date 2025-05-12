@@ -1,0 +1,109 @@
+<!-- Blurred backdrop -->
+<div class="modal-backdrop-custom" (click)="closeModal()"></div>
+
+<!-- Modal -->
+<div class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">{{ product.title }}</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+
+        <div id="carouselProductImages" class="carousel slide mb-4">
+            <div class="carousel-inner">
+                <div *ngFor="let img of product.images; let i = index" 
+                    class="carousel-item" 
+                    [ngClass]="{'active': i === 0}">
+                <img [src]="img" class="d-block h-100 m-auto" alt="Product Image">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductImages" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselProductImages" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>  
+
+
+        <!-- Product Details -->
+        <div class="details">
+
+          <p class="text-center mb-3">{{ product.description }}</p>
+
+          <div class="d-flex justify-content-center gap-3 align-items-center mb-4">
+            <div *ngIf="product.discountPercentage" class="badge bg-danger">
+              -{{ product.discountPercentage }}%
+            </div>
+            <div *ngIf="product.discountPercentage" class="text-white-50 text-decoration-line-through">
+              ${{ (product.price / (1 - product.discountPercentage/100)).toFixed(2) }}
+            </div>
+            <div class="text-success fw-bold">
+              ${{ product.price }}
+            </div>
+          </div>
+
+          <div class="text-center mb-4">
+            <span class="badge bg-success">Rating: {{ product.rating.toFixed(1) }}/5</span>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <h6>Specifications</h6>
+              <ul class="list-unstyled small">
+                <li><strong>Brand:</strong> {{ product.brand }}</li>
+                <li><strong>Category:</strong> {{ product.category }}</li>
+                <li><strong>SKU:</strong> {{ product.sku }}</li>
+                <li><strong>Weight:</strong> {{ product.weight }} oz</li>
+                <li><strong>Dimensions:</strong> {{ product.dimensions.width }} x {{ product.dimensions.height }} x {{ product.dimensions.depth }} mm</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <h6>Shipping & Warranty</h6>
+              <ul class="list-unstyled small">
+                <li><strong>Availability:</strong> {{ product.availabilityStatus }}</li>
+                <li><strong>Warranty:</strong> {{ product.warrantyInformation }}</li>
+                <li><strong>Shipping:</strong> {{ product.shippingInformation }}</li>
+                <li><strong>Return Policy:</strong> {{ product.returnPolicy }}</li>
+                <li><strong>Minimum Order:</strong> {{ product.minimumOrderQuantity }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Reviews -->
+          <div class="reviews mt-4">
+            <h5>Customer Reviews</h5>
+            <div *ngFor="let review of product.reviews" class="review-item p-3 my-2 rounded">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <strong>{{ review.reviewerName }}</strong> <small class="text-white-50">({{ review.reviewerEmail }})</small>
+                </div>
+                <div>
+                  <span class="text-warning">
+                    <i class="bi bi-star-fill" *ngFor="let s of getStars(review.rating)"></i>
+                  </span>
+                </div>
+              </div>
+              <p class="mb-0 mt-2">{{ review.comment }}</p>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+           <div class="d-flex justify-content-center">
+                  <button class="btn-cart" (click)="addToCart(product)">Add to Cart</button>
+                </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
