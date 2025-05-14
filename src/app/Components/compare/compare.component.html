@@ -1,1 +1,24 @@
-<p>compare works!</p>
+<div class="compare-wrapper" *ngIf="comparedProducts.length === 2">
+    <h2 class="text-center mb-4">Product Comparison</h2>
+  
+    <div class="compare-grid d-flex justify-content-center gap-5">
+      <div *ngFor="let product of comparedProducts" class="compare-card shadow">
+        <h5 class="text-center">{{ product.title }}</h5>
+        <img [src]="product.images[0] || 'assets/default-image.png'" class="product-img" />
+  
+        <div class="compare-details">
+          <p><strong>Price:</strong> ${{ product.price }}</p>
+          <p><strong>Rating:</strong> {{ product.rating }} ⭐</p>
+          <p *ngIf="product.discountPercentage"><strong>Discount:</strong> {{ product.discountPercentage }}%</p>
+          <p><strong>Brand:</strong> {{ product.brand }}</p>
+          <p><strong>Category:</strong> {{ product.category }}</p>
+          <p><strong>Description:</strong> {{ product.description }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="text-center mt-4">
+      <button class="btn btn-danger" (click)="clearComparison()">Clear Comparison</button>
+    </div>
+  </div>
+  

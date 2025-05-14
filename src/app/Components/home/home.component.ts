@@ -4,16 +4,19 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import {
   LaptopProduct,
+  Product,
   SmartphoneProduct,
   TabletProduct,
 } from '../../Core/interfaces/products';
 import { LottieAnimationComponent } from '../../Shared/lottie-animation/lottie-animation.component';
 import { LottieLoaderComponent } from '../../Shared/lottie-loader/lottie-loader.component';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../../Core/services/cart.service';
 import Swal from 'sweetalert2';
 import { ProductDetailsModalComponent } from '../product-details-modal/product-details-modal.component';
+import { ComparisonService } from '../../Core/services/comparison.service';
+import { ProductComparisonModalComponent } from "../product-comparison-modal/product-comparison-modal.component";
 
 @Component({
   selector: 'app-home',
@@ -25,12 +28,18 @@ import { ProductDetailsModalComponent } from '../product-details-modal/product-d
     FormsModule,
     RouterLink,
     ProductDetailsModalComponent,
+    ProductComparisonModalComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  constructor(private cartService: CartService, private http: HttpClient) {
+  constructor(
+    private cartService: CartService,
+    private http: HttpClient,
+    private comparisonService: ComparisonService,
+    private router: Router
+  ) {
     setTimeout(() => (this.showLoader = false), 7000);
   }
 
@@ -38,6 +47,8 @@ export class HomeComponent implements OnInit {
 
   showLoader = true;
   hoveredSidebarItem: string | null = null;
+  selectedCompareProducts: any[] = [];
+  showCompareModal: boolean = false;
 
   smartPhones: SmartphoneProduct[] = [];
   laptops: LaptopProduct[] = [];
@@ -63,7 +74,6 @@ export class HomeComponent implements OnInit {
     { icon: 'bi bi-people-fill', label: 'Users', hover: false },
     { icon: 'bi bi-bar-chart-fill', label: 'Analytics', hover: false },
     { icon: 'bi bi-gear-fill', label: 'Settings', hover: false },
-    { icon: 'bi bi-grid', label: 'Category', hover: false },
   ];
 
   categories: string[] = ['Phones', 'Laptops', 'Tablets'];
@@ -208,5 +218,37 @@ export class HomeComponent implements OnInit {
       stars.push(i);
     }
     return stars;
+  }
+
+  addToComparison(product: Product) {
+    const error = this.comparisonService.addProduct(product);
+    if (error) {
+      alert(error); // or show toast/snackbar
+    } else {
+      this.router.navigate(['/Compare']); // navigate to comparison view
+    }
+  }
+  toggleCompare(product: any) {
+    const index = this.selectedCompareProducts.findIndex(
+      (p) => p.id === product.id
+    );
+    if (index > -1) {
+      this.selectedCompareProducts.splice(index, 1);
+    } else {
+      if (this.selectedCompareProducts.length < 2) {
+        this.selectedCompareProducts.push(product);
+      }
+    }
+
+    this.showCompareModal = this.selectedCompareProducts.length === 2;
+  }
+
+  closeCompareModal() {
+    this.showCompareModal = false;
+    this.selectedCompareProducts = [];
+  }
+
+  isSelectedForCompare(product: any): boolean {
+    return this.selectedCompareProducts.some((p) => p.id === product.id);
   }
 }

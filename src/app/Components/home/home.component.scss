@@ -20,6 +20,16 @@
   &:hover {
     width: 200px;
 
+    .sidebar-item{
+      transform: translateX(-50%);
+      transition: all 0.3s ease;
+
+      .label{ 
+        opacity: 1;
+    }
+
+    }
+
     .sidebar-label {
       display: block;
     }
@@ -64,7 +74,6 @@
       transition: all 0.3s ease;
 
       &.show {
-        opacity: 1;
         transform: translateX(0);
       }
     }
@@ -260,7 +269,7 @@
   color: white;
   border: none;
   border-radius: 20px;
-  padding: 10px 20px;
+  padding: 5px 10px;
   font-weight: bold;
   transition: background 0.3s, transform 0.3s;
 
@@ -308,7 +317,7 @@
 /* Category Dropdown */
 .category-dropdown {
   position: absolute;
-  top: 100%;
+  top: 50px;
   left: 0;
   background: #1f1b2e;
   border-radius: 10px;
@@ -364,6 +373,25 @@
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(208, 120, 255, 0.3);
   }
+}
+
+.selected-compare {
+  border: 3px solid #9b59b6 !important;
+  box-shadow: 0 0 10px rgba(155, 89, 182, 0.6);
+  transition: border 0.3s ease;
+}
+
+.btn-compare {
+  background: #9b59b6;
+  border: none;
+  padding: 6px 12px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-compare:hover {
+  background-color: #8e44ad;
 }
 
 /* Animations */

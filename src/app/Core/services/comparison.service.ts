@@ -9,7 +9,7 @@ export class ComparisonService {
 
   addProduct(product: Product): string | null {
     if (this.comparisonList.length >= 2)
-      return 'You can only compare 2 products at a time.';
+      return 'You can only compare 2 products.';
     if (
       this.comparisonList.length === 1 &&
       this.comparisonList[0].category !== product.category
@@ -25,7 +25,7 @@ export class ComparisonService {
     return this.comparisonList;
   }
 
-  clearComparison() {
+  clearComparison(): void {
     this.comparisonList = [];
   }
 }

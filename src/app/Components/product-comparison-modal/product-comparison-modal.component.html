@@ -1,0 +1,37 @@
+<div class="compare-modal-container overflow-y-scroll">
+    <div class="compare-header">
+      <h2>Compare Products</h2>
+      <button class="close-btn" (click)="close.emit()">×</button>
+    </div>
+  
+    <div class="compare-grid">
+      <div class="compare-card" 
+           *ngFor="let product of compareList" 
+           (mouseenter)="hovered = product.id" 
+           (mouseleave)="hovered = null"
+           [class.hovered]="hovered === product.id">
+  
+        <img [src]="product.images[1] || 'assets/default-image.png'" alt="Product Image" class="product-img">
+        <h4 class="product-title">{{ product.title }}</h4>
+        <p class="product-description">{{ product.description }}</p>
+        
+        <div class="compare-info">
+          <div><strong>Brand:</strong> {{ product.brand }}</div>
+          <div><strong>Category:</strong> {{ product.category }}</div>
+          <div><strong>Price:</strong> ${{ product.price }}</div>
+          <div *ngIf="product.discountPercentage">
+            <strong>Discount:</strong> -{{ product.discountPercentage }}%
+          </div>
+          <div><strong>SKU:</strong> {{ product.sku }}</div>
+          <div><strong>Weight:</strong> {{ product.weight }} oz</div>
+          <div><strong>Dimensions:</strong> {{ product.dimensions.width }} x {{ product.dimensions.height }} x {{ product.dimensions.depth }} mm</div>
+        
+          <div><strong>Rating:</strong> {{ product.rating }} ★</div>
+        </div>
+      </div>
+  
+      <!-- Divider -->
+      <div class="compare-divider"></div>
+    </div>
+  </div>
+  

@@ -1,0 +1,44 @@
+.compare-wrapper {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+  
+    .compare-grid {
+      flex-wrap: wrap;
+  
+      .compare-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        width: 300px;
+        transition: transform 0.2s;
+  
+        &:hover {
+          transform: translateY(-5px);
+        }
+  
+        .product-img {
+          width: 100%;
+          height: 200px;
+          object-fit: contain;
+          margin-bottom: 1rem;
+        }
+  
+        .compare-details p {
+          font-size: 0.95rem;
+          margin: 0.5rem 0;
+        }
+      }
+    }
+  
+    button {
+      padding: 0.6rem 1.5rem;
+      font-weight: 600;
+    }
+  }
+  
