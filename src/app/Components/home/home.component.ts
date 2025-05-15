@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 import { ProductDetailsModalComponent } from '../product-details-modal/product-details-modal.component';
 import { ComparisonService } from '../../Core/services/comparison.service';
 import { ProductComparisonModalComponent } from "../product-comparison-modal/product-comparison-modal.component";
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -91,31 +92,34 @@ export class HomeComponent implements OnInit {
   }
 
   fetchProducts() {
-    this.http
-      .get<SmartphoneProduct[]>('http://localhost:3000/smartphones')
-      .subscribe((data) => {
-        this.smartPhones = data;
-        if (this.selectedCategory === 'Phones')
-          this.filteredProducts = this.smartPhones;
-      });
+    this.showLoader = true; // show the loader initially
 
-    this.http
-      .get<LaptopProduct[]>('http://localhost:3000/laptops')
-      .subscribe((data) => {
-        this.laptops = data;
-        if (this.selectedCategory === 'Laptops')
-          this.filteredProducts = this.laptops;
-      });
+    const smartphones$ = this.http.get<SmartphoneProduct[]>(
+      'http://localhost:3000/smartphones'
+    );
+    const laptops$ = this.http.get<LaptopProduct[]>(
+      'http://localhost:3000/laptops'
+    );
+    const tablets$ = this.http.get<TabletProduct[]>(
+      'http://localhost:3000/tablets'
+    );
 
-    this.http
-      .get<TabletProduct[]>('http://localhost:3000/tablets')
-      .subscribe((data) => {
-        this.tablets = data;
-        if (this.selectedCategory === 'Tablets')
-          this.filteredProducts = this.tablets;
-      });
+    forkJoin([smartphones$, laptops$, tablets$]).subscribe(
+      ([smartphones, laptops, tablets]) => {
+        this.smartPhones = smartphones;
+        this.laptops = laptops;
+        this.tablets = tablets;
 
-    this.updateBrands();
+        this.filterByCategory(); // make sure filteredProducts is set properly
+        this.updateBrands(); // update brands for the selected category
+
+        this.showLoader = false; // hide loader when all requests are done
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+        this.showLoader = false;
+      }
+    );
   }
 
   playAnimation() {
