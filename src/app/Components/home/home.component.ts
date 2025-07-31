@@ -91,29 +91,61 @@ export class HomeComponent implements OnInit {
     this.fetchProducts();
   }
 
-  fetchProducts() {
-    this.showLoader = true; // show the loader initially
+  // For Json call (required for the Uni)
+  // fetchProducts() {
+  //   this.showLoader = true; // show the loader initially
 
-    const smartphones$ = this.http.get<SmartphoneProduct[]>(
-      'http://localhost:3000/smartphones'
+  //   const smartphones$ = this.http.get<SmartphoneProduct[]>(
+  //     'http://localhost:3000/smartphones'
+  //   );
+  //   const laptops$ = this.http.get<LaptopProduct[]>(
+  //     'http://localhost:3000/laptops'
+  //   );
+  //   const tablets$ = this.http.get<TabletProduct[]>(
+  //     'http://localhost:3000/tablets'
+  //   );
+
+  //   forkJoin([smartphones$, laptops$, tablets$]).subscribe(
+  //     ([smartphones, laptops, tablets]) => {
+  //       this.smartPhones = smartphones;
+  //       this.laptops = laptops;
+  //       this.tablets = tablets;
+
+  //       this.filterByCategory(); // make sure filteredProducts is set properly
+  //       this.updateBrands(); // update brands for the selected category
+
+  //       this.showLoader = false; // hide loader when all requests are done
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching products:', error);
+  //       this.showLoader = false;
+  //     }
+  //   );
+  // }
+
+  fetchProducts() {
+    this.showLoader = true;
+
+    const smartphones$ = this.http.get<any>(
+      'https://dummyjson.com/products/category/smartphones'
     );
-    const laptops$ = this.http.get<LaptopProduct[]>(
-      'http://localhost:3000/laptops'
+    const laptops$ = this.http.get<any>(
+      'https://dummyjson.com/products/category/laptops'
     );
-    const tablets$ = this.http.get<TabletProduct[]>(
-      'http://localhost:3000/tablets'
+    const tablets$ = this.http.get<any>(
+      'https://dummyjson.com/products/category/tablets'
     );
 
     forkJoin([smartphones$, laptops$, tablets$]).subscribe(
-      ([smartphones, laptops, tablets]) => {
-        this.smartPhones = smartphones;
-        this.laptops = laptops;
-        this.tablets = tablets;
+      ([smartphonesRes, laptopsRes, tabletsRes]) => {
+        this.smartPhones = smartphonesRes.products;
+        this.laptops = laptopsRes.products;
+        this.tablets = tabletsRes.products;
 
-        this.filterByCategory(); // make sure filteredProducts is set properly
-        this.updateBrands(); // update brands for the selected category
+        this.filterByCategory();
+        this.updateBrands();
 
-        this.showLoader = false; // hide loader when all requests are done
+        this.showLoader = false;
       },
       (error) => {
         console.error('Error fetching products:', error);
